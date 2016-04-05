@@ -1,0 +1,4 @@
+name "travis-dc-detect-slave"
+description "Travis D Compiler Detect: Slave: A travis-ci 'unittest' that runs on travis to detect and report the D compiler travis is using."
+copyright "Copyright © 2016, Nick Sabalausky"
+authors "Nick Sabalausky"
