@@ -71,13 +71,13 @@ struct DCompiler
 
 		case DCompilerType.ldc2:
 			// Get compiler help screen
-			auto result = execute(["ldc2", "--help"]);
+			auto result = execute(["ldc2", "--version"]);
 			this.fullCompilerOutput = result.output;
 			this.fullCompilerStatus = result.status;
 			if(result.status != 0) break; // Bail
 
 			// Get front end version
-			result = execute(["ldc2", "-o", "helper/print_dmdfe", "helper/print_dmdfe.d"]);
+			result = execute(["ldc2", "-of=helper/print_dmdfe", "helper/print_dmdfe.d"]);
 			if(result.status != 0) break; // Bail
 			result = execute(["helper/print_dmdfe"]);
 			if(result.status != 0) break; // Bail
