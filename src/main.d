@@ -13,6 +13,7 @@ ability of this tool itself to be tested.
 import std.stdio;
 import std.process;
 import std.algorithm : countUntil;
+import std.string : strip;
 
 void main() {}
 
@@ -97,14 +98,9 @@ struct DCompiler
 			this.versionHeader = this.fullCompilerOutput[0..firstNewlineIndex];
 
 			// Get version number
-			auto searchStr = ") ";
-			auto versionIndex = searchStr.length + this.versionHeader.countUntil(searchStr);
-			this.compilerVersion = this.versionHeader[versionIndex..$];
-
-			// Trim datestamp off version number
-			auto versionEndIndex = this.compilerVersion.countUntil(" ");
-			if(versionEndIndex == -1) break; // Bail
-			this.compilerVersion = this.compilerVersion[0..versionEndIndex];
+			result = execute(["gdc", "-dumpversion"]);
+			if(result.status == 0)
+				this.compilerVersion = result.output.strip();
 
 			// Get front end version
 			result = execute(["gdc", "-o", "helper/print_dmdfe", "helper/print_dmdfe.d"]);
