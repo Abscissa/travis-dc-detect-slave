@@ -17,6 +17,23 @@ import std.string : strip;
 
 void main() {}
 
+/// Returns the substring of 'str' between 'a' and 'b'.
+/// Returns the first match found, or null if no match found.
+/// If 'a' or 'b' is null, it matches the beginning or end of 'str'.
+string findBetween(string str, string a, string b)
+{
+	auto aStart = a? str.countUntil(a) : 0;
+	if(aStart == -1)
+		return null;
+
+	auto aEnd = aStart + a.length;
+	auto bStart = b? str[aEnd..$].countUntil(b) : str.length;
+	if(bStart == -1)
+		return null;
+
+	return str[aEnd..bStart];
+}
+
 // Detect D Compiler //////////////////////////////////////////
 
 struct DCompiler
@@ -24,9 +41,11 @@ struct DCompiler
 	DCompilerType type;
 	string typeRaw;
 
-	string versionHeader      = "unknown";
-	string compilerVersion    = "unknown";
-	string dmdFrontEndVersion = "unknown";
+	string versionHeader   = "unknown";
+	string compilerVersion = "unknown";
+	string frontEndVersion = "unknown";
+	string llvmVersion     = "unknown";
+	string gccVersion      = "unknown";
 
 	string fullCompilerOutput = "unknown";
 	int fullCompilerStatus = -1;
@@ -52,50 +71,50 @@ struct DCompiler
 			break;
 
 		case DCompilerType.dmd:
+			llvmVersion = "none";
+			gccVersion = "none";
+
 			// Get compiler help screen
 			auto result = execute(["dmd", "--help"]);
 			this.fullCompilerOutput = result.output;
 			this.fullCompilerStatus = result.status;
 			if(result.status != 0) break; // Bail
 
-			// Get version header
-			auto firstNewlineIndex = this.fullCompilerOutput.countUntil("\n");
-			if(firstNewlineIndex == -1) break; // Bail
-			this.versionHeader = this.fullCompilerOutput[0..firstNewlineIndex];
+			// Get versions
+			this.versionHeader = this.fullCompilerOutput.findBetween(null, "\n");
 			
-			// Get version number
-			auto searchStr = "D Compiler v";
-			auto versionIndex = searchStr.length + this.versionHeader.countUntil(searchStr);
-			this.compilerVersion = this.versionHeader[versionIndex..$];
-			this.dmdFrontEndVersion = this.compilerVersion;
+			this.compilerVersion = this.versionHeader.findBetween("D Compiler v", null);
+			this.frontEndVersion = this.compilerVersion;
 			break;
 
 		case DCompilerType.ldc2:
+			gccVersion = "none";
+
 			// Get compiler help screen
 			auto result = execute(["ldc2", "--version"]);
 			this.fullCompilerOutput = result.output;
 			this.fullCompilerStatus = result.status;
 			if(result.status != 0) break; // Bail
 
-			// Get front end version
-			result = execute(["ldc2", "-of=helper/print_dmdfe", "helper/print_dmdfe.d"]);
-			if(result.status != 0) break; // Bail
-			result = execute(["helper/print_dmdfe"]);
-			if(result.status != 0) break; // Bail
-			this.dmdFrontEndVersion = result.output ~ ".x";
+			// Get versions
+			this.versionHeader = this.fullCompilerOutput.findBetween(null, "Default target");
+
+			this.compilerVersion = this.versionHeader.findBetween("LLVM D compiler (", ")");
+			this.frontEndVersion = this.versionHeader.findBetween("DMD v", " ");
+			this.llvmVersion     = this.versionHeader.findBetween("and LLVM", null);
 			break;
 
 		case DCompilerType.gdc:
+			llvmVersion = "none";
+
 			// Get compiler version string
 			auto result = execute(["gdc", "--version"]);
 			this.fullCompilerOutput = result.output;
 			this.fullCompilerStatus = result.status;
 			if(result.status != 0) break; // Bail
 
-			// Get version header
-			auto firstNewlineIndex = this.fullCompilerOutput.countUntil("\n");
-			if(firstNewlineIndex == -1) break; // Bail
-			this.versionHeader = this.fullCompilerOutput[0..firstNewlineIndex];
+			// Get versions header
+			this.versionHeader = this.fullCompilerOutput.findBetween(null, "\n");
 
 			// Get version number
 			result = execute(["gdc", "-dumpversion"]);
@@ -107,7 +126,7 @@ struct DCompiler
 			if(result.status != 0) break; // Bail
 			result = execute(["helper/print_dmdfe"]);
 			if(result.status != 0) break; // Bail
-			this.dmdFrontEndVersion = result.output ~ ".x";
+			this.frontEndVersion = result.output ~ ".x";
 			break;
 		}
 	}
@@ -139,9 +158,11 @@ unittest
 	writeln("dc.type:    ", dc.type);
 	writeln("dc.typeRaw: ", dc.typeRaw);
 	writeln();
-	writeln("dc.versionHeader:      ", dc.versionHeader);
-	writeln("dc.compilerVersion:    ", dc.compilerVersion);
-	writeln("dc.dmdFrontEndVersion: ", dc.dmdFrontEndVersion);
+	writeln("dc.versionHeader:   ", dc.versionHeader);
+	writeln("dc.compilerVersion: ", dc.compilerVersion);
+	writeln("dc.frontEndVersion: ", dc.frontEndVersion);
+	writeln("dc.llvmVersion:     ", dc.llvmVersion);
+	writeln("dc.gccVersion:      ", dc.gccVersion);
 	writeln("---------------------------");
 	writeln("dc.fullCompilerStatus: ",  dc.fullCompilerStatus);
 	write  ("dc.fullCompilerOutput:\n", dc.fullCompilerOutput);
