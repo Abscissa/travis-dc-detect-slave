@@ -27,7 +27,7 @@ string findBetween(string str, string a, string b)
 		return null;
 
 	auto aEnd = aStart + a.length;
-	auto bStart = b? str[aEnd..$].countUntil(b) : str.length;
+	auto bStart = b? str[aEnd..$].countUntil(b) + aStart : str.length;
 	if(bStart == -1)
 		return null;
 
