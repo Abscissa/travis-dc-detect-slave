@@ -166,8 +166,6 @@ unittest
 	auto dc = detectDCompiler();
 	
 	writeln("===========================");
-	writeln("FOO_TRAVIS:    ", environment["FOO_TRAVIS"]);
-	writeln("FOO_SCRIPTLIKE:    ", environment["FOO_SCRIPTLIKE"]);
 	writeln("dc.type:    ", dc.type);
 	writeln("dc.typeRaw: ", dc.typeRaw);
 	writeln();
