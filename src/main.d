@@ -1,9 +1,8 @@
-import std.stdio;
-import std.process;
 import std.algorithm : countUntil;
+import std.conv;
+import std.process;
+import std.stdio;
 import std.string : strip;
-
-void main() {}
 
 /// Returns the substring of 'str' between 'a' and 'b'.
 /// Returns the first match found, or null if no match found.
@@ -147,8 +146,10 @@ DCompiler detectDCompiler()
 
 // Main //////////////////////////////////////////
 
-unittest
+int main()
 {
+	import sdlang;
+
 	auto dc = detectDCompiler();
 	
 	writeln("===========================");
@@ -165,5 +166,23 @@ unittest
 	write  ("dc.fullCompilerOutput:\n", dc.fullCompilerOutput);
 	writeln("===========================");
 
-	
+	// Get command for reporting
+	auto sdlConfig = parseFile("config.sdl");
+	auto reporterCommand = sdlConfig.tags["reporter-command"][0].values[0].get!string;
+
+	// Setup environment vars
+	environment["DC_TYPE"]              = dc.type.to!string();
+	environment["DC_TYPE_RAW"]          = dc.typeRaw;
+	environment["DC_VERSION_HEADER"]    = dc.versionHeader;
+	environment["DC_COMPILER_VERSION"]  = dc.compilerVersion;
+	environment["DC_FRONT_END_VERSION"] = dc.frontEndVersion;
+	environment["DC_LLVM_VERSION"]      = dc.llvmVersion;
+	environment["DC_GCC_VERSION"]       = dc.gccVersion;
+	environment["DC_HELP_OUTPUT"]       = dc.fullCompilerOutput;
+	environment["DC_HELP_STATUS"]       = dc.fullCompilerStatus.to!string();
+
+	// Report results
+	writeln("Running: ", reporterCommand);
+	auto status = spawnShell(reporterCommand).wait();
+	return status;
 }

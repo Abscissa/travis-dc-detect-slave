@@ -1,0 +1,26 @@
+// Copy this file to "config.sdl" and then edit as needed.
+
+// This setting is used by travis-dc-detect-slave.
+//
+// The main travis-dc-detect-slave tool runs this command after it detects
+// version information about the currently active D compiler (ie, the D compiler
+// travis-ci set up the environment with).
+//
+// The information travis-dc-detect-slave detected is passed to this command
+// via environment variables:
+// DC_TYPE:              Type of D compiler: Either 'dmd', 'ldc2', 'gdc', or 'unknown'
+// DC_TYPE_RAW:          Just like DC_TYPE, but if DC_TYPE is 'unknown', this contains the original value that wasn't understood.
+// DC_VERSION_HEADER:    All main version information reported by the compiler, in the compiler's own format.
+// DC_COMPILER_VERSION:  Version number of DMD, LDC or GDC.
+// DC_FRONT_END_VERSION: Version number of DMDFE used by the compiler.
+// DC_LLVM_VERSION:      For LDC, the version number of the LLVM which LDC is based on. For DMD/GDC this is 'none'.
+// DC_GCC_VERSION:       Not currently used. Always 'none'.
+// DC_HELP_OUTPUT:       Full output of running "dmd --help", "gdc --version", etc.
+// DC_HELP_STATUS:       Statuc code of running "dmd --help", "gdc --version", etc.
+reporter-command "local-dmd/dmd2/linux/bin64/rdmd -ofpostToHTTPS reporter/postToHTTPS.d http://127.0.0.1:8080/compiler"
+
+// These settings are used by reporter/postToHTTPS.d (ie, the default report-command)
+//
+// If you're using a custom command instead of postToHTTPS.d, you can omit
+// these. Or your custom command can read this file to obtain settings of its own.
+#post-url "https://127.0.0.1:8080/compiler"

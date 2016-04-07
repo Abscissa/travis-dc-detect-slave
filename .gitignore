@@ -4,7 +4,10 @@ docs.json
 __dummy.html
 *.o
 *.obj
-/helper/print_dmdfe
+/config.sdl
 /travis-dc-detect-slave
+/helper/print_dmdfe
+/postToHTTPS
+/reporting_post_data.txt
 /dmd.*.zip
 /local-dmd
