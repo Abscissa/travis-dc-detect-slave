@@ -4,6 +4,10 @@ sudo: false
 install: ./install-deps.sh
 script: ./run-test.sh
 
+cache:
+    directories:
+        - local-dmd
+
 matrix:
     include:
         - d: dmd
