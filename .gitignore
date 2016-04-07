@@ -4,5 +4,7 @@ docs.json
 __dummy.html
 *.o
 *.obj
-helper/print_dmdfe
-travis-dc-detect-slave
+/helper/print_dmdfe
+/travis-dc-detect-slave
+/dmd.*.zip
+/local-dmd

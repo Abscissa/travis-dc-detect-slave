@@ -1,8 +1,15 @@
 language: d
 sudo: false
 
+install: ./install-deps.sh
+script: ./run-test.sh
+
 matrix:
     include:
         - d: dmd
+        - d: dmd-2.067.1
         - d: ldc
+        - d: ldc-0.15.1
         - d: gdc
+        - d: gdc-5.2.0
+        - d: gdc-4.9.0

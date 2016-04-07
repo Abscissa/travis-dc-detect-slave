@@ -1,15 +1,3 @@
-/+
-Deliberately keep all the code in here simple to
-minimize chance compiler changes breaking this.
-Otherwise, the compiler used will fail to get reported.
-
-In the future, this project should be adjusted to always
-run using a single pre-determined compiler, regardless
-of the travis-ci environment. That would prevent compiler
-changes from breaking this tool, and would improve the
-ability of this tool itself to be tested.
-+/
-
 import std.stdio;
 import std.process;
 import std.algorithm : countUntil;
@@ -161,8 +149,6 @@ DCompiler detectDCompiler()
 
 unittest
 {
-	writeln("Running unittest");
-
 	auto dc = detectDCompiler();
 	
 	writeln("===========================");
