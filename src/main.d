@@ -18,7 +18,6 @@ string findBetween(string str, string a, string b)
 	if(bStart == -1)
 		return null;
 
-	//if(aEnd < 0 || bStart > str.length || aEnd )
 	return str[aEnd..bStart];
 }
 
