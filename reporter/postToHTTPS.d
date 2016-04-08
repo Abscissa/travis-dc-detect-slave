@@ -40,12 +40,5 @@ int main(string[] args)
 	writeln(postData);
 	
 	// Send POST
-	auto filename = "reporting_post_data.txt";
-	std.file.write(filename, postData);
-	auto cmd = "curl -f -d @"~filename~" "~args[1];
-	writeln("Running: ", cmd);
-	//auto result = executeShell(cmd);
-	//writeln(result.output);
-	//return result.status;
-	return spawnShell(cmd).wait();
+	return spawnProcess(["curl", "-f", "-d", postData, args[1]]).wait();
 }
