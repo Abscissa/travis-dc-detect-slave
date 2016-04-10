@@ -1,0 +1,5 @@
+name "posttohttps"
+description "Travis D Compiler Detect: Slave: postToHTTPS reporter."
+copyright "Copyright © 2016, Nick Sabalausky"
+authors "Nick Sabalausky"
+libs "curl"

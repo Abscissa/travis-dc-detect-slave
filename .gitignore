@@ -9,3 +9,4 @@ __dummy.html
 /helper/print_dmdfe
 /dmd.*.zip
 /local-dmd
+/reporter/postToHTTPS/posttohttps

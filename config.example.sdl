@@ -17,7 +17,7 @@
 // DC_GCC_VERSION:       Not currently used. Always 'none'.
 // DC_HELP_OUTPUT:       Full output of running "dmd --help", "gdc --version", etc.
 // DC_HELP_STATUS:       Statuc code of running "dmd --help", "gdc --version", etc.
-reporter-command "local-dmd/dmd2/linux/bin64/rdmd reporter/postToHTTPS.d http://127.0.0.1:8080/compiler"
+reporter-command "cd reporter/postToHTTPS && dub run --compiler=../../local-dmd/dmd2/linux/bin64/dmd -- http://127.0.0.1:8080/compiler"
 
 // Note to developers: If using reporter/postToHTTPS.d, the server's password
 // must be in the envvar REPORTING_SERVER_PASS. Normally, when running this

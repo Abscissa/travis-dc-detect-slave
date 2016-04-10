@@ -1,11 +1,13 @@
 import std.array;
 static import std.file;
+import std.net.curl;
 import std.process;
 import std.stdio;
 import std.uri;
 
 auto vars = [
 	"DC_TYPE",
+	"DC_TYPE_RAW",
 	"DC_VERSION_HEADER",
 	"DC_COMPILER_VERSION",
 	"DC_FRONT_END_VERSION",
@@ -37,8 +39,12 @@ int main(string[] args)
 		buf.put(std.uri.encode(environment[var]));
 	}
 	auto postData = buf.data;
-	writeln(postData);
 	
 	// Send POST
-	return spawnProcess(["curl", "-f", "-d", postData, args[1]]).wait();
+	//return spawnProcess(["curl", "-f", "-d", postData, args[1]]).wait();
+	//return spawnProcess(["curl", "-d", postData, args[1]]).wait();
+	
+	auto response = post(args[1], postData);
+	writeln(response);
+	return 0;
 }
