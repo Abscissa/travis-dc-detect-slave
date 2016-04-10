@@ -41,10 +41,13 @@ int main(string[] args)
 	auto postData = buf.data;
 	
 	// Send POST
-	//return spawnProcess(["curl", "-f", "-d", postData, args[1]]).wait();
-	//return spawnProcess(["curl", "-d", postData, args[1]]).wait();
+	auto http = HTTP(args[1]);
+	http.setPostData(postData, "application/x-www-form-urlencoded");
+	http.perform();
+	writeln();
 	
-	auto response = post(args[1], postData);
-	writeln(response);
+	if(http.statusLine.code >= 400)
+		return 1;
+
 	return 0;
 }
