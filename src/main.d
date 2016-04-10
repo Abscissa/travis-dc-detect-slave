@@ -34,8 +34,8 @@ struct DCompiler
 	string llvmVersion     = "unknown";
 	string gccVersion      = "unknown";
 
-	string fullCompilerOutput = "unknown";
-	int fullCompilerStatus = -1;
+	string helpOutput = "unknown";
+	int helpStatus = -1;
 
 	void detectType()
 	{
@@ -63,12 +63,12 @@ struct DCompiler
 
 			// Get compiler help screen
 			auto result = execute(["dmd", "--help"]);
-			this.fullCompilerOutput = result.output;
-			this.fullCompilerStatus = result.status;
+			this.helpOutput = result.output;
+			this.helpStatus = result.status;
 			if(result.status != 0) break; // Bail
 
 			// Get versions
-			this.versionHeader = this.fullCompilerOutput.findBetween(null, "\n");
+			this.versionHeader = this.helpOutput.findBetween(null, "\n");
 			
 			this.compilerVersion = this.versionHeader.findBetween("D Compiler v", null);
 			this.frontEndVersion = this.compilerVersion;
@@ -79,11 +79,11 @@ struct DCompiler
 
 			// Get compiler help screen
 			auto result = execute(["ldc2", "--version"]);
-			this.fullCompilerOutput = result.output;
-			this.fullCompilerStatus = result.status;
+			this.helpOutput = result.output;
+			this.helpStatus = result.status;
 			if(result.status != 0) break; // Bail
 
-/+			this.fullCompilerOutput = "LDC - the LLVM D compiler (0.17.1):
+/+			this.helpOutput = "LDC - the LLVM D compiler (0.17.1):
   based on DMD v2.068.2 and LLVM 3.7.1
   Default target: x86_64-unknown-linux-gnu
   Host CPU: ivybridge
@@ -94,7 +94,7 @@ struct DCompiler
 ";+/
 
 			// Get versions
-			this.versionHeader = this.fullCompilerOutput.findBetween(null, "Default target").strip();
+			this.versionHeader = this.helpOutput.findBetween(null, "Default target").strip();
 
 			this.compilerVersion = this.versionHeader.findBetween("LLVM D compiler (", ")");
 			this.frontEndVersion = this.versionHeader.findBetween("DMD v", " ");
@@ -106,12 +106,12 @@ struct DCompiler
 
 			// Get compiler version string
 			auto result = execute(["gdc", "--version"]);
-			this.fullCompilerOutput = result.output;
-			this.fullCompilerStatus = result.status;
+			this.helpOutput = result.output;
+			this.helpStatus = result.status;
 			if(result.status != 0) break; // Bail
 
 			// Get versions header
-			this.versionHeader = this.fullCompilerOutput.findBetween(null, "\n");
+			this.versionHeader = this.helpOutput.findBetween(null, "\n");
 
 			// Get version number
 			result = execute(["gdc", "-dumpversion"]);
@@ -161,8 +161,8 @@ int main()
 	writeln("dc.llvmVersion:     ", dc.llvmVersion);
 	writeln("dc.gccVersion:      ", dc.gccVersion);
 	writeln("---------------------------");
-	writeln("dc.fullCompilerStatus: ",  dc.fullCompilerStatus);
-	write  ("dc.fullCompilerOutput:\n", dc.fullCompilerOutput);
+	writeln("dc.helpStatus: ",  dc.helpStatus);
+	write  ("dc.helpOutput:\n", dc.helpOutput);
 	writeln("===========================");
 
 	// Get command for reporting
@@ -177,8 +177,8 @@ int main()
 	environment["DC_FRONT_END_VERSION"] = dc.frontEndVersion;
 	environment["DC_LLVM_VERSION"]      = dc.llvmVersion;
 	environment["DC_GCC_VERSION"]       = dc.gccVersion;
-	environment["DC_HELP_OUTPUT"]       = dc.fullCompilerOutput;
-	environment["DC_HELP_STATUS"]       = dc.fullCompilerStatus.to!string();
+	environment["DC_HELP_OUTPUT"]       = dc.helpOutput;
+	environment["DC_HELP_STATUS"]       = dc.helpStatus.to!string();
 
 	// Report results
 	writeln("Running: ", reporterCommand);
