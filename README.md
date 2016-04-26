@@ -24,7 +24,9 @@ This "slave" portion is a travis-ci "unittest" (not truly a unittest, but preten
 How travis-dc-detect works
 --------------------------
 
-**Overview:** Travis runs travis-dc-detect-slave against the latest versions of each D compiler. The travis-dc-detect-slave tool detects the compiler's information and passes it to a customizable reporting tool, by default [reporter/postToHTTPS](https://github.com/Abscissa/travis-dc-detect-slave/blob/master/reporter/postToHTTPS). Then, postToHTTPS sends the information (plus a password) to a server, travis-dc-detect-master. This travis-dc-detect-master saves the info to database and generates an HTML page for the world to see.
+**Overview:**
+
+Travis runs travis-dc-detect-slave against the latest versions of each D compiler. The travis-dc-detect-slave tool detects the compiler's information and passes it to a customizable reporting tool, by default [reporter/postToHTTPS](https://github.com/Abscissa/travis-dc-detect-slave/blob/master/reporter/postToHTTPS). Then, postToHTTPS sends the information (plus a password) to a server, travis-dc-detect-master. This travis-dc-detect-master saves the info to database and generates an HTML page for the world to see.
 
 **Detail:**
 
