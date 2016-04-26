@@ -15,7 +15,7 @@ This is part of travis-dc-detect, the other part being travis-dc-detect-master.
 
 travis-dc-detect is a system to automatically detect and publicly list all the versions of D compilers available on [travis-ci](https://travis-ci.com), along with basic version information.
 
-This "slave" portion is a travis-ci "unittest" (not truly a unittest, but pretends to be for the sake of travis-ci) that runs on travis. This detects and reports the D compiler travis is using.
+This "slave" portion is a travis-ci "unittest" (not truly a unittest, but pretends to be for the sake of travis-ci) that runs on travis. This detects and reports the D compiler travis is using to the "[master](https://github.com/Abscissa/travis-dc-detect-master)" portion. The master then stores the compiler information received into a database, and generates and serves an HTML page displaying all the compiler information collected.
 
 How travis-dc-detect works
 --------------------------
