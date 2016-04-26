@@ -1,6 +1,10 @@
 travis-dc-detect-slave
 ======================
 
+This project is used in generating the following page which lists all D compilers (and version info) available on travis-ci:
+
+https://semitwist.com/travis-d-compilers
+
 What's this for?
 ----------------
 
@@ -42,4 +46,4 @@ How travis-dc-detect works
 
 9. **travis-dc-detect-master pre-generates an HTML page listing all the compilers and their version info.** The page is only re-generated if the compiler information is actually new.
 
-10. **Any D user visits ... to see to current travis D compiler list with front-end version information.**
+10. **Any D user visits https://semitwist.com/travis-d-compilers to see to current travis D compiler list with front-end version information.**
