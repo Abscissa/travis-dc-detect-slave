@@ -8,5 +8,4 @@ matrix:
     include:
         - d: dmd
         - d: ldc
-        - d: ldc-0.13.0
         - d: gdc
