@@ -11,7 +11,7 @@ All this compiler information should be available in one easy go-to location, an
 What is this?
 -------------
 
-This is part of travis-dc-detect, the other part being travis-dc-detect-master.
+This is part of travis-dc-detect, the other part being [travis-dc-detect-master](https://github.com/Abscissa/travis-dc-detect-master).
 
 travis-dc-detect is a system to automatically detect and publicly list all the versions of D compilers available on [travis-ci](https://travis-ci.com), along with basic version information.
 
