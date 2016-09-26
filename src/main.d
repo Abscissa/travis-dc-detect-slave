@@ -134,7 +134,6 @@ enum DCompilerType
 	unknown, dmd, ldc2, gdc
 }
 
-
 DCompiler detectDCompiler()
 {
 	DCompiler dc;
@@ -167,7 +166,7 @@ int main()
 
 	// Get command for reporting
 	auto sdlConfig = parseFile("config.sdl");
-	auto reporterCommand = sdlConfig.tags["reporter-command"][0].values[0].get!string;
+	auto reporterCommand = sdlConfig.expectTagValue!string("reporter-command");
 
 	// Setup environment vars
 	environment["DC_TYPE"]              = dc.type.to!string();
