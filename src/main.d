@@ -83,8 +83,9 @@ struct DCompiler
 			this.helpStatus = result.status;
 			if(result.status != 0) break; // Bail
 
-/+			this.helpOutput = "LDC - the LLVM D compiler (0.17.1):
-  based on DMD v2.068.2 and LLVM 3.7.1
+/+			this.helpOutput = "LDC - the LLVM D compiler (1.1.0-alpha1):
+  based on DMD v2.071.1 and LLVM 3.8.0
+  built with LDC - the LLVM D compiler (1.0.0)
   Default target: x86_64-unknown-linux-gnu
   Host CPU: ivybridge
   http://dlang.org - http://wiki.dlang.org/LDC
@@ -94,11 +95,11 @@ struct DCompiler
 ";+/
 
 			// Get versions
-			this.versionHeader = this.helpOutput.findBetween(null, "Default target").strip();
+			this.versionHeader = this.helpOutput.findBetween(null, "Default target").strip()~"\n";
 
 			this.compilerVersion = this.versionHeader.findBetween("LLVM D compiler (", ")");
 			this.frontEndVersion = this.versionHeader.findBetween("DMD v", " ");
-			this.llvmVersion     = this.versionHeader.findBetween("and LLVM ", null);
+			this.llvmVersion     = this.versionHeader.findBetween("and LLVM ", "\n");
 			break;
 
 		case DCompilerType.gdc:
