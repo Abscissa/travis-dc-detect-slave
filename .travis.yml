@@ -7,7 +7,6 @@ script: ./run-test.sh
 matrix:
     include:
         - d: dmd
-        - d: dmd-2.072.0-b1
         - d: dmd-beta
         - d: ldc
         - d: ldc-beta
